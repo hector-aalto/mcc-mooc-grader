@@ -14,17 +14,31 @@ SUBMISSION_MOUNT=$5
 CMD=$6
 COURSE_JSON=$7
 EXERCISE_JSON=$8
+PRIVILEGED=$9
 
 # Override host to enable local testing.
 IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -1)
 PORT=${GRADER_HOST##*:}
 GRADER_HOST=http://$IP:$PORT
 
-docker run \
-  -d --rm \
-  -e "SID=$SID" \
-  -e "REC=$GRADER_HOST" \
-  -v $EXERCISE_MOUNT:/exercise \
-  -v $SUBMISSION_MOUNT:/submission \
-  $DOCKER_IMAGE \
-  $CMD
+if [ "${PRIVILEGED}" == true ]; then
+    docker run \
+      -d --rm \
+      --privileged
+      -e "SID=$SID" \
+      -e "REC=$GRADER_HOST" \
+      -v $EXERCISE_MOUNT:/exercise \
+      -v $SUBMISSION_MOUNT:/submission \
+      $DOCKER_IMAGE \
+      $CMD
+else
+    docker run \
+      -d --rm \
+      -e "SID=$SID" \
+      -e "REC=$GRADER_HOST" \
+      -v $EXERCISE_MOUNT:/exercise \
+      -v $SUBMISSION_MOUNT:/submission \
+      $DOCKER_IMAGE \
+      $CMD
+fi
+

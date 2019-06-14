@@ -400,8 +400,8 @@ def _acceptSubmission(request, course, exercise, post_url, sdir):
         exercise_extra = {
             "key": exercise["key"],
             "title": exercise.get("title", None),
-            "resources": c.get("resources", {}), # Unofficial param, implemented differently later
-            "require_constant_environment": c.get("require_constant_environment", False) # Unofficial param, implemented differently later
+            "resources": c.get("resources", {}),  # Unofficial param, implemented differently later
+            "require_constant_environment": c.get("require_constant_environment", False)  # Unofficial param, implemented differently later
         }
         if exercise.get("personalized", False):
             exercise_extra["personalized_exercise"] \
@@ -418,6 +418,7 @@ def _acceptSubmission(request, course, exercise, post_url, sdir):
             "exercise_key": exercise["key"],
             "lang": translation.get_language(),
         })
+        print("Privileged: "+c["privileged"])
         r = invoke([
             settings.CONTAINER_SCRIPT,
             sid,
@@ -428,6 +429,7 @@ def _acceptSubmission(request, course, exercise, post_url, sdir):
             c["cmd"],
             json.dumps(course_extra),
             json.dumps(exercise_extra),
+            c["privileged"],
         ])
         LOGGER.debug("Container order exit=%d out=%s err=%s",
             r["code"], r["out"], r["err"])
