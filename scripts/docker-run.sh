@@ -24,7 +24,8 @@ GRADER_HOST=http://$IP:$PORT
 if [ "${PRIVILEGED}" == true ]; then
     docker run \
       -d --rm \
-      --privileged
+      --privileged \
+      -v /var/run/docker.sock:/var/run/docker.sock \
       -e "SID=$SID" \
       -e "REC=$GRADER_HOST" \
       -v $EXERCISE_MOUNT:/exercise \
