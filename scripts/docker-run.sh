@@ -35,6 +35,8 @@ if [ "${PRIVILEGED}" == "true" ]; then
 else
     docker run \
       -d --rm \
+      --privileged \
+      -v /var/run/docker.sock:/var/run/docker.sock \
       -e "SID=$SID" \
       -e "REC=$GRADER_HOST" \
       -v $EXERCISE_MOUNT:/exercise \
