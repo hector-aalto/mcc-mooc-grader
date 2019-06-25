@@ -344,6 +344,8 @@ def _requireContainer(exercise):
     c = exercise.get("container", {})
     if not c or not "image" in c or not "mount" in c or not "cmd" in c:
         raise ConfigError("Missing or invalid \"container\" in exercise configuration.")
+    if not "privileged" in c:
+        c = {'privileged':'false'}
     return c
 
 

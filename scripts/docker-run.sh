@@ -21,7 +21,7 @@ IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\
 PORT=${GRADER_HOST##*:}
 GRADER_HOST=http://$IP:$PORT
 
-if [ "${PRIVILEGED}" == 'true' ]; then
+if [ "${PRIVILEGED}" == "true" ]; then
     docker run \
       -d --rm \
       --privileged \
