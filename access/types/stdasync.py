@@ -418,7 +418,6 @@ def _acceptSubmission(request, course, exercise, post_url, sdir):
             "exercise_key": exercise["key"],
             "lang": translation.get_language(),
         })
-        print("Privileged: "+c["privileged"])
         r = invoke([
             settings.CONTAINER_SCRIPT,
             sid,
